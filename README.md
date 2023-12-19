@@ -6,6 +6,7 @@ Make Sure You installed:
 ## Running
 1. Run the Game by double-clicking RunGame.bat, don't touch the java files.
 2. The Game will display this interface:
+
 ![FlappyBird Interface](/Demo/Interface.png)
 3. Chooses
 4. Click **PLAY** or **EXIT**.

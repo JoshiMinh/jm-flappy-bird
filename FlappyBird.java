@@ -22,6 +22,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
     private int Tick, space, distance, velocity, gravity;
     private int Diff, DefaultDiff, prevScore = 0;
+    private String playerName;
 
     private ImageIcon base;
     private ImageIcon deadBird;
@@ -30,7 +31,8 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     private ImageIcon upperPipeIcon;
     private ImageIcon lowerPipeIcon;
 
-    public FlappyBird(String theme, int Difficulty) {
+    public FlappyBird(String theme, int Difficulty, String playername) {
+    	this.playerName = playername;
         this.Diff = Difficulty;
         DefaultDiff = Diff;
         setDifficulty(Diff);
@@ -98,7 +100,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     public void getLevel(int level){
-        if(level == (prevScore + 15*(Diff+1)) && Diff < 3){
+        if(level == (prevScore + 10*(Diff+1)) && Diff < 3){
             setDifficulty(Diff);
             timer.setDelay(Tick);
             prevScore = level;
@@ -336,14 +338,21 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 deadBird,
-                new Object[]{"Retry", "Quit"},
+                new Object[]{"Retry", "Save Score", "Quit"},
                 "Retry"
         );
 
         // Handle user choice
-        if (choice == JOptionPane.YES_OPTION) {
+        if (choice == 0) {
             // Retry the game
             restartGame();
+        } else if (choice == 1) {
+        	if(playerName == "" || playerName == " ") {
+        		JOptionPane.showMessageDialog(null, "Player Name is empty!", "Error", JOptionPane.ERROR_MESSAGE);
+        	}
+        	else {
+        		AddScore saveScore = new AddScore(playerName, score);
+        	}
         } else {
             // Quit the game
             closeGame();

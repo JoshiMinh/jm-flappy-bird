@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.*; 
+import java.io.*;
 
 public class Launcher {
     private static final String FILE_PATH = "LastPlay.txt";
@@ -18,7 +18,7 @@ public class Launcher {
         JComboBox<String> difficulty = new JComboBox<>(new String[]{"Easy", "Normal", "Hard", "Impossible"});
         difficulty.setSelectedItem("Normal");
 
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(5, 2));  // Adjusted the grid layout to accommodate the new button
         panel.add(new JLabel("Player Name:"));
         panel.add(nameField);
 
@@ -39,7 +39,9 @@ public class Launcher {
         panel.add(difficulty);
 
         panel.add(new JLabel("Copyright@JoshiMinh"));
-        String[] buttonLabels = {"PLAY", "EXIT"};
+        
+        // Add the "ScoreBoard" button
+        String[] buttonLabels = {"PLAY", "ScoreBoard", "EXIT"};
 
         // Create and scale bird icon
         ImageIcon birdIcon = new ImageIcon("Themes/Flappy_Bird_icon.png");
@@ -76,7 +78,7 @@ public class Launcher {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600);
             frame.setResizable(false);
-            frame.add(new FlappyBird(selectedTheme, selectedDifficulty));
+            frame.add(new FlappyBird(selectedTheme, selectedDifficulty, playerName));
             frame.setVisible(true);
 
             // Center the frame on the screen
@@ -91,8 +93,11 @@ public class Launcher {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else if (result == 2) {
             System.exit(0);
+        } else {
+            ScoreBoard board = new ScoreBoard();
+            main(new String[]{});
         }
     }
 }

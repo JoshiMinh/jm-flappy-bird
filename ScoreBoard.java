@@ -8,9 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 
 public class ScoreBoard {
-    public static void main(String[] args) {
-    	ScoreBoard score = new ScoreBoard();
-    }
     
     public ScoreBoard(){
         // Database connection details

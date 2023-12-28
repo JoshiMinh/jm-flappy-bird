@@ -69,7 +69,7 @@ public class Launcher {
 
         if (result == 0) {
             // Get player name and selected theme
-            String playerName = nameField.getText();
+            String playerName = nameField.getText().trim();
             String selectedTheme = (String) themesComboBox.getSelectedItem();
             int selectedDifficulty = difficulty.getSelectedIndex();
 
@@ -96,7 +96,7 @@ public class Launcher {
         } else if (result == 2) {
             System.exit(0);
         } else {
-            ScoreBoard board = new ScoreBoard();
+            new ScoreBoard();
             main(new String[]{});
         }
     }

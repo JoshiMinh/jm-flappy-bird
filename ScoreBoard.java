@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.*;
+import java.awt.Font;
 
 public class ScoreBoard {
     
@@ -19,14 +21,14 @@ public class ScoreBoard {
         star = new ImageIcon(star.getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT));
 
         try {
-            // Step 1: Load the SQL Server JDBC driver
+            //Load the SQL Server JDBC driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            // Step 2: Establish the database connection
+            //Establish the database connection
             try (Connection connection = DriverManager.getConnection(url, username, password)) {
                 System.out.println("Fetching ScoreBoard Successful!");
 
-                // Step 3: Execute the SQL query
+                //Execute the SQL query
                 String sqlQuery = "SELECT PlayerName, MAX(Score) AS MaxScore " +
                                   "FROM FlappyBird " +
                                   "GROUP BY PlayerName " +
@@ -35,8 +37,14 @@ public class ScoreBoard {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
                      ResultSet resultSet = preparedStatement.executeQuery()) {
 
-                    // Step 4: Process the result set
-                    DefaultTableModel model = new DefaultTableModel();
+                    //Process the result set
+                    DefaultTableModel model = new DefaultTableModel() {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            // Set all cells to be non-editable
+                            return false;
+                        }
+                    };
                     model.addColumn("Player");
                     model.addColumn("Max Score");
 
@@ -46,8 +54,17 @@ public class ScoreBoard {
                         model.addRow(new Object[]{playerName, maxScore});
                     }
 
-                    // Step 5: Display the result in a JTable within a JOptionPane
+                    //Display the result in a JTable within a JOptionPane
                     JTable table = new JTable(model);
+
+                    // Set header font to bold
+                    JTableHeader header = table.getTableHeader();
+                    Font headerFont = header.getFont();
+                    header.setFont(headerFont.deriveFont(Font.BOLD));
+
+                    // Disable column reordering
+                    table.getTableHeader().setReorderingAllowed(false);
+
                     JScrollPane scrollPane = new JScrollPane(table);
                     JOptionPane.showMessageDialog(null, scrollPane, "Player Scores", JOptionPane.INFORMATION_MESSAGE, star);
                 }

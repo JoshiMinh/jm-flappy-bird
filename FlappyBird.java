@@ -346,13 +346,13 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         if (choice == 0) {
             // Retry the game
             restartGame();
-        } else if (choice == 1) {
-        	if(playerName == "" || playerName == " ") {
-        		JOptionPane.showMessageDialog(null, "Player Name is empty!", "Error", JOptionPane.ERROR_MESSAGE);
-        	}
-        	else {
-        		AddScore saveScore = new AddScore(playerName, score);
-        	}
+        } else if (choice == 1) {        	
+            if(Diff > 0){
+                new AddScore(playerName, score*Math.pow(Diff, Diff-1));
+            }
+            else if (Diff == 0) {
+                new AddScore(playerName, score);
+            }
         } else {
             // Quit the game
             closeGame();

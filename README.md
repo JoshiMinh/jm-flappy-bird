@@ -4,11 +4,12 @@ Make Sure You Installed:
 * Java Development Kit ([JDK](https://www.oracle.com/java/technologies/downloads/#jdk21-windows))
 
 ## Running
-1. Run the Game by double-clicking `Flappy Bird` Shortcut, don't touch the other files. (You can also move this Shortcut to the Desktop)
+1. Run the Game by double-clicking `Flappy Bird.exe` or `RunGame.bat` files, don't touch the other files.
 2. Chose your options:
     * `Themes`: Choose your preferred themes, the default will be the Original theme of Flappy Bird.
     * `Difficulty`: Easy is easy, normal is normal, hard is smooth and for anyones who is familiar with the game already, and don't think about trying Impossible, you can't even pass the first pipe.
 3. Click **PLAY** or **EXIT**.
+4. Click **ScoreBoard** to view the scoreboard. (Connected to online database)
 
 <p align="center">
   <img src="/Demo/Interface.png" alt="FlappyBird Interface">

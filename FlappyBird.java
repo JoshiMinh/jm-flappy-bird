@@ -100,10 +100,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     }
 
     public void getLevel(int level){
-        if(level == (prevScore + 10*(Diff+1)) && Diff < 3){
+        if(level == (prevScore + 4*(Diff+1)) && Diff < 3){
+            prevScore = level;
             setDifficulty(Diff);
             timer.setDelay(Tick);
-            prevScore = level;
             Diff += 1;
         }
     }

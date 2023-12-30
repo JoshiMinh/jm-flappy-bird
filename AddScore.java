@@ -39,7 +39,7 @@ public class AddScore {
                     // Step 4: Execute the query
                     preparedStatement.executeUpdate();
                     System.out.println("Score added successfully!");
-                    JOptionPane.showMessageDialog(null, "Successfully Added Score.", "Score Added!", JOptionPane.INFORMATION_MESSAGE, star);
+                    JOptionPane.showMessageDialog(null, "Successfully Added Score: " + ((int) Score), "Score Added!", JOptionPane.INFORMATION_MESSAGE, star);
 
                 } catch (SQLException e) {
                     // Handle database connection or query execution errors

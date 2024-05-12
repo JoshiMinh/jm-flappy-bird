@@ -74,7 +74,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 distance = 580;
                 velocity = 3;
                 gravity = 1;
-                break;
+                break; 
             case 1:
                 Tick = 16;
                 space = 190;
@@ -92,10 +92,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             case 3:
                 Tick = 8;
                 space = 110;
-                distance = 410;
+                distance = 110;
                 velocity = 8;
                 gravity = 2;
-                break;
+                break; 
         }
     }
 

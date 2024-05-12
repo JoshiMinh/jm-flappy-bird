@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.Font;
 
 public class ScoreBoard {
-    
     public ScoreBoard(){
         // Database connection details
         String url = "jdbc:sqlserver://JoshiNitro5\\MSSQLSERVER02:1433;database=master";

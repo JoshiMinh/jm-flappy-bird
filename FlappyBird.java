@@ -205,7 +205,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             // Remove off-screen obstacles
             obstacles.removeIf(obstacle -> obstacle.x + obstacle.width < 0);
         }
-    }   
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

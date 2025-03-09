@@ -31,12 +31,12 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         DefaultDiff = Diff;
         setDifficulty(Diff);
 
-        flappyBirdIcon = new ImageIcon("Themes/" + theme + "/bird.png");
-        backgroundImage = new ImageIcon("Themes/" + theme + "/background.png");
-        upperPipeIcon = new ImageIcon("Themes/" + theme + "/obsdown.png");
-        lowerPipeIcon = new ImageIcon("Themes/" + theme + "/obs.png");
-        base = new ImageIcon("Themes/" + theme + "/base.png");
-        deadBird = new ImageIcon("Themes/" + theme + "/dead_bird.png");
+        flappyBirdIcon = new ImageIcon("themes/" + theme + "/bird.png");
+        backgroundImage = new ImageIcon("themes/" + theme + "/background.png");
+        upperPipeIcon = new ImageIcon("themes/" + theme + "/obsdown.png");
+        lowerPipeIcon = new ImageIcon("themes/" + theme + "/obs.png");
+        base = new ImageIcon("themes/" + theme + "/base.png");
+        deadBird = new ImageIcon("themes/" + theme + "/dead_bird.png");
 
         backgroundImage = new ImageIcon(backgroundImage.getImage().getScaledInstance(800, 600, Image.SCALE_DEFAULT));
         flappyBirdIcon = new ImageIcon(flappyBirdIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -182,7 +182,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     
         // Draw start button if not started or ended
         if (!endGame && !startGame) {
-            ImageIcon startButton = new ImageIcon("Themes/StartButton.png");
+            ImageIcon startButton = new ImageIcon("images/start.png");
             startButton = new ImageIcon(startButton.getImage().getScaledInstance(150, 60, Image.SCALE_DEFAULT));
             startButton.paintIcon(this, g, birdX - 55, 400);
         }
@@ -211,7 +211,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         } else if (keyCode == KeyEvent.VK_ESCAPE) {
             timer.stop();
     
-            ImageIcon pause = new ImageIcon("Themes/pause.png");
+            ImageIcon pause = new ImageIcon("images/pause.png");
             pause = new ImageIcon(pause.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
     
             int choice = JOptionPane.showOptionDialog(
@@ -238,7 +238,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            rotationAngle = 30; // Adjust the rotation angle when releasing
+            rotationAngle = 30;
         }
     }
     

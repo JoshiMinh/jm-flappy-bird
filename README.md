@@ -17,7 +17,7 @@
 4. Click **ScoreBoard** to view the scoreboard (connected to an online database).
 
 <div align="center">
-  <img src="/Demo/Interface.png" alt="Interface">
+  <img src="/Demo/Interface.png">
 </div>
 
 <h2 style="text-align: center;">Gameplay - Here's the game's interface</h2>
@@ -26,5 +26,5 @@
 - Press `ESC` to stop.
 
 <div align="center">
-  <img src="/Demo/Game.png" alt="Game" style="width:100%;">
+  <img src="/Demo/Game.png" style="width:100%;">
 </div>

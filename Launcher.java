@@ -10,14 +10,16 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        // Initialize components
         JTextField nameField = new JTextField(10);
         JComboBox<String> themesComboBox = new JComboBox<>(new String[]{"Original", "Red Night", "Under Water", "9-11"});
+        File themesDir = new File("themes");
+        String[] themes = themesDir.isDirectory() ? themesDir.list((dir, name) -> new File(dir, name).isDirectory()) : new String[0];
+        JComboBox<String> themesComboBox = new JComboBox<>(themes);
         JComboBox<String> difficulty = new JComboBox<>(new String[]{"Easy", "Normal", "Hard", "Impossible"});
-        
+
         themesComboBox.setSelectedItem("Original");
         difficulty.setSelectedItem("Normal");
-    
+
         JPanel panel = new JPanel(new GridLayout(5, 2));
         panel.add(new JLabel("Player Name:"));
         panel.add(nameField);
@@ -26,26 +28,23 @@ public class Launcher {
         panel.add(new JLabel("Select Difficulty:"));
         panel.add(difficulty);
         panel.add(new JLabel("Copyright@JoshiMinh"));
-    
-        // Read the first line from the file and set it to the text field
+
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String firstLine = reader.readLine();
             if (firstLine != null) nameField.setText(firstLine);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    
-        // Create a hidden frame with the bird icon
-        ImageIcon birdIcon = new ImageIcon("Themes/Flappy_Bird_icon.png");
+
+        ImageIcon birdIcon = new ImageIcon("images/Flappy_Bird_icon.png");
         birdIcon = new ImageIcon(birdIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-    
+
         JFrame parentFrame = new JFrame();
         parentFrame.setUndecorated(true);
         parentFrame.setLocationRelativeTo(null);
         parentFrame.setIconImage(birdIcon.getImage());
         parentFrame.setVisible(true);
-    
-        // Show option dialog
+
         int result = JOptionPane.showOptionDialog(
             parentFrame,
             panel,
@@ -54,17 +53,16 @@ public class Launcher {
             JOptionPane.PLAIN_MESSAGE,
             birdIcon,
             new String[]{"PLAY", "ScoreBoard", "EXIT"},
-            "PLAY");
-    
+            "PLAY"
+        );
+
         parentFrame.dispose();
-    
+
         if (result == 0) {
-            // Get player name and selected settings
             String playerName = nameField.getText().trim();
             String selectedTheme = (String) themesComboBox.getSelectedItem();
             int selectedDifficulty = difficulty.getSelectedIndex();
-    
-            // Create and configure game frame
+
             JFrame frame = new JFrame("Flappy Bird");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600);
@@ -73,8 +71,7 @@ public class Launcher {
             frame.setVisible(true);
             frame.setLocationRelativeTo(null);
             frame.setIconImage(birdIcon.getImage());
-    
-            // Save player name
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
                 writer.write(playerName);
             } catch (IOException e) {
@@ -86,5 +83,5 @@ public class Launcher {
             new ScoreBoard();
             main(new String[0]);
         }
-    }    
+    }
 }

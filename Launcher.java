@@ -11,7 +11,6 @@ public class Launcher {
 
     public static void main(String[] args) {
         JTextField nameField = new JTextField(10);
-        JComboBox<String> themesComboBox = new JComboBox<>(new String[]{"Original", "Red Night", "Under Water", "9-11"});
         File themesDir = new File("themes");
         String[] themes = themesDir.isDirectory() ? themesDir.list((dir, name) -> new File(dir, name).isDirectory()) : new String[0];
         JComboBox<String> themesComboBox = new JComboBox<>(themes);

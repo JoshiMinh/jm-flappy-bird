@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.sound.sampled.AudioInputStream;
@@ -22,7 +22,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     private int Tick, space, distance, velocity, gravity;
     private int Diff, DefaultDiff, prevScore;
     private String playerName;
-
     private ImageIcon base, deadBird, flappyBirdIcon, backgroundImage, upperPipeIcon, lowerPipeIcon;
 
     public FlappyBird(String theme, int Difficulty, String playerName) {
@@ -30,24 +29,19 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         this.Diff = Difficulty;
         DefaultDiff = Diff;
         setDifficulty(Diff);
-
         flappyBirdIcon = new ImageIcon("themes/" + theme + "/bird.png");
         backgroundImage = new ImageIcon("themes/" + theme + "/background.png");
         upperPipeIcon = new ImageIcon("themes/" + theme + "/obsdown.png");
         lowerPipeIcon = new ImageIcon("themes/" + theme + "/obs.png");
         base = new ImageIcon("themes/" + theme + "/base.png");
         deadBird = new ImageIcon("themes/" + theme + "/dead_bird.png");
-
         backgroundImage = new ImageIcon(backgroundImage.getImage().getScaledInstance(800, 600, Image.SCALE_DEFAULT));
         flappyBirdIcon = new ImageIcon(flappyBirdIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         base = new ImageIcon(base.getImage().getScaledInstance(800, 100, Image.SCALE_DEFAULT));
-
         addKeyListener(this);
         setFocusable(true);
-
         timer = new Timer(150, this);
         timer.start();
-
         generateObstacle();
     }
 
@@ -58,7 +52,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             {12, 150, 470, 6, 1},
             {8, 110, 110, 8, 2}
         };
-        
         if (difficulty >= 0 && difficulty < settings.length) {
             int[] s = settings[difficulty];
             Tick = s[0];
@@ -67,7 +60,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             velocity = s[3];
             gravity = s[4];
         }
-    }    
+    }
 
     public void getLevel(int level) {
         if (level >= prevScore + 4 * (Diff + 1) && Diff < 3) {
@@ -75,52 +68,44 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             setDifficulty(++Diff);
             timer.setDelay(Tick);
         }
-    }    
+    }
 
     public void playSound(String soundFilePath, float volume) {
         try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(soundFilePath))) {
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-    
             if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 float gain = gainControl.getMinimum() + (gainControl.getMaximum() - gainControl.getMinimum()) * volume;
                 gainControl.setValue(gain);
             }
-    
             clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
 
     public void generateObstacle() {
         int width = 55;
         int height = random.nextInt(300) + 50;
-        
         obstacles.add(new Rectangle(800, 0, width, height));
         obstacles.add(new Rectangle(800, height + space, width, 600 - height - space));
-    }    
-    
+    }
+
     public void move() {
         if (endGame) {
             if (startGame) {
                 birdVelocity += gravity;
                 birdY += birdVelocity;
                 if (birdY > 475) gameOver();
-            } 
-            // No need for obstacle movement or collision checks if the game is over.
+            }
             obstacles.removeIf(obstacle -> obstacle.x + obstacle.width < 0);
             if (obstacles.get(obstacles.size() - 1).x < distance) generateObstacle();
-        } 
-        
-        else if (startGame) {
+        } else if (startGame) {
             birdVelocity += gravity;
             birdY += birdVelocity;
-
             obstacles.forEach(obstacle -> obstacle.x -= velocity);
             Rectangle bird = new Rectangle(birdX, birdY, 50, 40);
-
             for (Rectangle obstacle : obstacles) {
                 if (obstacle.intersects(bird) || birdY < 0 || birdY > 475) {
                     playSound("Sound/bird-hit.wav", gameVol);
@@ -132,38 +117,26 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             }
             if (obstacles.get(obstacles.size() - 1).x < distance) generateObstacle();
             obstacles.removeIf(obstacle -> obstacle.x + obstacle.width < 0);
-        } 
-        
-        else {
+        } else {
             birdY += Down ? 10 : -10;
             Down = !Down;
             obstacles.forEach(obstacle -> obstacle.x -= 0);
         }
-    }    
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-    
-        // Draw background
         backgroundImage.paintIcon(this, g, 0, 0);
-    
-        // Draw obstacles
         for (Rectangle obstacle : obstacles) {
             int lowerPipeHeight = 600 - obstacle.height - space;
             g.drawImage(lowerPipeIcon.getImage(), obstacle.x, obstacle.y + obstacle.height + space, obstacle.width, lowerPipeHeight, this);
             g.drawImage(upperPipeIcon.getImage(), obstacle.x, obstacle.y, obstacle.width, obstacle.height, this);
         }
-    
-        // Draw ground
         base.paintIcon(this, g, 0, 520);
-    
-        // Rotate and draw Flappy Bird
         Graphics2D g2d = (Graphics2D) g;
         g2d.rotate(Math.toRadians(rotationAngle), birdX + 20, birdY + 22);
         flappyBirdIcon.paintIcon(this, g2d, birdX, birdY);
         g2d.rotate(-Math.toRadians(rotationAngle), birdX + 20, birdY + 22);
-    
-        // Draw score with black stroke
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 60));
         String scoreString = Integer.toString((int) score);
@@ -179,17 +152,14 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         }
         g.setColor(Color.WHITE);
         g.drawString(scoreString, x, y);
-    
-        // Draw start button if not started or ended
         if (!endGame && !startGame) {
             ImageIcon startButton = new ImageIcon("images/start.png");
             startButton = new ImageIcon(startButton.getImage().getScaledInstance(150, 60, Image.SCALE_DEFAULT));
             startButton.paintIcon(this, g, birdX - 55, 400);
         }
-    
         getLevel((int) score);
-    }    
-    
+    }
+
     public void actionPerformed(ActionEvent e) {
         move();
         repaint();
@@ -197,11 +167,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
 
     public void closeGame() {
         SwingUtilities.getWindowAncestor(this).dispose();
-    }    
-    
+    }
+
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-    
         if ((keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_UP) && !endGame) {
             startGame = true;
             timer.setDelay(Tick);
@@ -210,10 +179,8 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             playSound("Sound/flap.wav", gameVol);
         } else if (keyCode == KeyEvent.VK_ESCAPE) {
             timer.stop();
-    
             ImageIcon pause = new ImageIcon("images/pause.png");
             pause = new ImageIcon(pause.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-    
             int choice = JOptionPane.showOptionDialog(
                 this,
                 "Game Paused",
@@ -224,7 +191,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 new Object[]{"Continue", "Restart", "Quit"},
                 "Continue"
             );
-    
             if (choice == JOptionPane.YES_OPTION) {
                 timer.start();
             } else if (choice == JOptionPane.NO_OPTION) {
@@ -234,20 +200,19 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
                 Launcher.restartLauncher();
             }
         }
-    }    
-    
+    }
+
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             rotationAngle = 30;
         }
     }
-    
-    public void keyTyped(KeyEvent e) {}    
+
+    public void keyTyped(KeyEvent e) {}
 
     public void gameOver() {
         timer.stop();
         deadBird = new ImageIcon(deadBird.getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT));
-    
         int choice = JOptionPane.showOptionDialog(
             this,
             "You Lose",
@@ -258,7 +223,6 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             new Object[]{"Retry", "Save Score", "Quit"},
             "Retry"
         );
-    
         if (choice == 0) {
             restartGame();
         } else if (choice == 1) {
@@ -267,7 +231,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
             closeGame();
             Launcher.restartLauncher();
         }
-    }    
+    }
 
     public void restartGame() {
         score = 0;
@@ -278,12 +242,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         startGame = false;
         endGame = false;
         Diff = DefaultDiff;
-    
         setDifficulty(DefaultDiff);
         obstacles.clear();
         generateObstacle();
-    
         timer.setDelay(150);
         timer.start();
-    }    
+    }
 }
